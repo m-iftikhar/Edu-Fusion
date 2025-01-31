@@ -306,13 +306,16 @@ email:string;
 
 export const updateUserInfo =CatchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
   try {
-    const { name } = req.body as IUpdateUserInfo;
+    const { name ,email} = req.body as IUpdateUserInfo;
 
     const userId = req.user?._id;
     const user = await userModel.findById(userId);
 
     if (name && user) {
       user.name = name;
+    }
+    if (email && user) {
+      user.email = email;
     }
 
     await user?.save();
