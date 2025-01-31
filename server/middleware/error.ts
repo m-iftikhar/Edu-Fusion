@@ -38,7 +38,10 @@ export const ErrorMiddleware = (
     const message = `Json web token is expired, try again`;
     err = new ErrorHandler(message, 400);
   }
-  
+  const refresh_token = req.cookies.refresh_token as string;
+if (!refresh_token) {
+    return next(new ErrorHandler("JWT must be provided", 400));
+}
 
   res.status(err.statusCode).json({
     success: false,

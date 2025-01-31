@@ -42,10 +42,13 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   const accessToken = user.SignAccessToken();
   const refreshToken = user.SignRefreshToken();
 
+  // In your sendToken function:
+
+
 //   upload session to redis
     redis.set(String(user._id), JSON.stringify(user));
     // redis.set(user._id as string, JSON.stringify(user) as any);
-
+   
 
 
   res.cookie("access_token", accessToken, accessTokenOptions);

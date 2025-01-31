@@ -3,7 +3,7 @@ import { CatchAsyncError } from "./catchAsyncError";
 import ErrorHandler from "../utils/ErrorHandler";
 import jwt,{JwtPayload} from "jsonwebtoken";
 import { redis } from "../utils/redis";
-
+import { updateAccessToken } from "../controllers/usercontroller";
 
 export const isAutheticated = CatchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -22,13 +22,13 @@ export const isAutheticated = CatchAsyncError(
       }
   
       // check if the access token is expired
-    //   if (decoded.exp && decoded.exp <= Date.now() / 1000) {
-    //     try {
-    //       await updateAccessToken(req, res, next);
-    //     } catch (error) {
-    //       return next(error);
-    //     }
-    //   } else {
+      if (decoded.exp && decoded.exp <= Date.now() / 1000) {
+        try {
+          await updateAccessToken(req, res, next);
+        } catch (error) {
+          return next(error);
+        }
+      } else {
         const user = await redis.get(decoded.id);
   
         if (!user) {
@@ -41,7 +41,7 @@ export const isAutheticated = CatchAsyncError(
   
         next();
       }
-    // }
+    }
   );
 
   // vilidate user role
