@@ -1,7 +1,7 @@
 import express from 'express';
-import {activateUser, getUserInfo, loginUser, logoutUser, registrationUser, socialAuth, updateAccessToken} from '../controllers/usercontroller'
+import {activateUser, getUserInfo, loginUser, logoutUser, updatePassword, registrationUser, socialAuth, updateAccessToken, updateUserInfo} from '../controllers/usercontroller'
 import { isAutheticated } from '../middleware/auth';
-import { getUserById } from '../services/user.service';
+
 
 const userRouter= express.Router();
 
@@ -12,6 +12,10 @@ userRouter.get("/logout",isAutheticated ,logoutUser);
 userRouter.get("/refresh", updateAccessToken);
 userRouter.get("/me", isAutheticated,getUserInfo);
 userRouter.post("/social", socialAuth);
+userRouter.put("/update-user-info",isAutheticated, updateUserInfo);
+userRouter.put("/update-user-password", isAutheticated, updatePassword);
+// userRouter.put("/update-user-avatar", isAutheticated, updateProfilePicture);
+
 
 
 
