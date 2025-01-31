@@ -1,14 +1,10 @@
-import { Request } from 'express';
+import { Request } from "express";
+import { IUser } from "../models/user.model";
 
-declare module 'express' {
-  interface Request {
-    user?: {
-      _id: string;
-      role: string;
-      // Add other properties of the user object if needed
-    };
-  }
+declare global {
+    namespace Express{
+        interface Request{
+            user?: IUser
+        }
+    }
 }
-
-
-
