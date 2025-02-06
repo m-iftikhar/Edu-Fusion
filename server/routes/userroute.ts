@@ -20,4 +20,5 @@ userRouter.put("/update-user-avatar", isAutheticated, updateProfilePicture);
 
 
 
+
 export default userRouter;
