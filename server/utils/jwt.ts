@@ -27,7 +27,8 @@ export const accessTokenOptions: ITokenOptions = {
   maxAge: accessTokenExpire * 60 * 60 * 1000,
   httpOnly: true,
   sameSite: "none",
-//   secure: true,  TRUE ONLY IN PRODUCTION
+  //  secure: true,  //TRUE ONLY IN PRODUCTION
+
 };
 
 export const refreshTokenOptions: ITokenOptions = {
@@ -35,7 +36,8 @@ export const refreshTokenOptions: ITokenOptions = {
   maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
   httpOnly: true,
   sameSite: "none",
-//   secure: true,   TRUE ONLY IN PRODUCTION
+  //  secure: true,     //TRUE ONLY IN PRODUCTION
+
 };
 
 export const sendToken = (user: IUser, statusCode: number, res: Response) => {

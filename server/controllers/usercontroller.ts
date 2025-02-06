@@ -177,14 +177,12 @@ export const loginUser = CatchAsyncError(
 
 // logout user
 export const logoutUser = CatchAsyncError(
-  async (req:Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       res.cookie("access_token", "", { maxAge: 1 });
       res.cookie("refresh_token", "", { maxAge: 1 });
       const userId = req.user?._id || "";
-      if (userId) {
-        redis.del(userId); // Now it will always be a valid RedisKey
-      }
+      redis.del(userId);
       res.status(200).json({
         success: true,
         message: "Logged out successfully",
@@ -196,10 +194,10 @@ export const logoutUser = CatchAsyncError(
 );
 
 
+
 // update access token
 export const updateAccessToken = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    // console.log("Hit the /api/v1/refresh route");  
     try {
       const refresh_token = req.cookies.refresh_token as string;
       const decoded = jwt.verify(
@@ -218,7 +216,6 @@ export const updateAccessToken = CatchAsyncError(
           new ErrorHandler("Please login for access this resources!", 400)
         );
       }
-   
 
       const user = JSON.parse(session);
 
@@ -229,6 +226,7 @@ export const updateAccessToken = CatchAsyncError(
           expiresIn: "5m",
         }
       );
+
       const refreshToken = jwt.sign(
         { id: user._id },
         process.env.REFRESH_TOKEN as string,
@@ -236,15 +234,11 @@ export const updateAccessToken = CatchAsyncError(
           expiresIn: "3d",
         }
       );
-     
 
       req.user = user;
 
       res.cookie("access_token", accessToken, accessTokenOptions);
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
-      
-     
-      
 
       await redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7days
 
@@ -253,7 +247,6 @@ export const updateAccessToken = CatchAsyncError(
       return next(new ErrorHandler(error.message, 400));
     }
   }
-  
 );
 
 // get user info
@@ -293,6 +286,7 @@ export const socialAuth = CatchAsyncError(
         sendToken(user, 200, res);
       }
     } catch (error: any) {
+      console.error("Error in updateAccessToken:", error);
       return next(new ErrorHandler(error.message, 400));
     }
   }

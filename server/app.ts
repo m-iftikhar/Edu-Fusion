@@ -2,13 +2,14 @@ import express from "express";
 import { Request, Response, NextFunction } from "express";
 require("dotenv").config();
 export const app = express();
-import cors from "cors";
-import cookieParser from "cookie-parser";
 import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/userroute"; // Verify path
 import courseRouter from "./routes/courseroute"
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
-app.use(cors({ origin: process.env.ORIGIN,
+app.use(cors({ 
+  origin: process.env.ORIGIN,
    credentials: true 
   }));
 // Middleware
