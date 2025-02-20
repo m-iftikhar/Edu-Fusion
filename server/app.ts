@@ -6,7 +6,9 @@ import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/userroute"; // Verify path
 import courseRouter from "./routes/courseroute"
 import cookieParser from "cookie-parser";
+import orderRouter from "./routes/orderroute"
 import cors from "cors";
+import notificationRouter from "./routes/notificationroute";
 
 app.use(cors({ 
   origin: process.env.ORIGIN,
@@ -18,8 +20,8 @@ app.use(cookieParser());
 
 
 // Routes
-app.use("/api/v1", userRouter);
-app.use("/api/v1", courseRouter);
+app.use("/api/v1", userRouter,courseRouter,orderRouter,notificationRouter);
+
 
 // Test route
 app.get("/test", (req: Request, res: Response) => {
