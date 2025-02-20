@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import orderRouter from "./routes/orderroute"
 import cors from "cors";
 import notificationRouter from "./routes/notificationroute";
+import analyticsRouter from "./routes/analytics.route";
 
 app.use(cors({ 
   origin: process.env.ORIGIN,
@@ -20,7 +21,7 @@ app.use(cookieParser());
 
 
 // Routes
-app.use("/api/v1", userRouter,courseRouter,orderRouter,notificationRouter);
+app.use("/api/v1", userRouter,courseRouter,orderRouter,notificationRouter,analyticsRouter);
 
 
 // Test route
