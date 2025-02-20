@@ -7,7 +7,7 @@ import path from "path";
 import ejs from "ejs";
 import NotificationModel from "../models/notification.model";
 import sendMail from "../utils/sendMail";
-import { newOrder } from "../services/order.service";
+import { newOrder,getAllOrdersService } from "../services/order.service";
 require("dotenv").config();
 import userModel from "../models/usermodel";
 import { redis } from "../utils/redis";
@@ -111,3 +111,14 @@ export const createOrder = CatchAsyncError(
       }
     }
   );
+
+  // get All orders --- only for admin
+export const getAllOrders = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllOrdersService(res);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
